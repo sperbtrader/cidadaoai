@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cidadão.AI - O Futuro das Cidades Inteligentes</title>
+    <style>
+        :root {
+            --primary: #005c9e; /* Azul mais sóbrio, inspirado no gov.br */
+            --secondary: #00a884; /* Verde moderno, neon */
+            --accent: #ff8c00; /* Laranja vibrante para destaque */
+            --dark: #12121f; /* Fundo escuro, quase preto */
+            --light: #e5e5e5; /* Texto claro, fácil de ler */
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: rgba(18, 18, 31, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 168, 132, 0.2);
+            border-bottom: 1px solid var(--secondary);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--light);
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2.5rem;
+        }
+        
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--secondary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        .menu-toggle { display: none; cursor: pointer; }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(rgba(18, 18, 31, 0.8), rgba(18, 18, 31, 0.8)), url('hero_cidade_inteligente.png') no-repeat center center/cover;
+            margin-top: 70px;
+        }
+        
+        .hero-content { max-width: 800px; text-align: center; margin: 0 auto; }
+        
+        .hero h2 {
+            font-size: 3.8rem;
+            margin-bottom: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: rgba(229, 229, 229, 0.9);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 14px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 140, 0, 0.5);
+        }
+        
+        /* Sections */
+        section { padding: 100px 0; }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 2.8rem;
+            position: relative;
+            font-weight: 700;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+        
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .about-text h3 { font-size: 2.2rem; margin-bottom: 20px; color: var(--secondary); }
+        .about-text p { margin-bottom: 15px; }
+        .about-text .highlight { font-weight: 600; color: var(--secondary); }
+        
+        .about-image {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 168, 132, 0.15);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .about-image:hover img { transform: scale(1.05); }
+        
+        /* Products Section */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+        
+        .product-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--secondary);
+            box-shadow: 0 15px 30px rgba(0, 168, 132, 0.2);
+        }
+        
+        .product-image { height: 220px; overflow: hidden; }
+        .product-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .product-card:hover .product-image img { transform: scale(1.1); }
+        
+        .product-info { padding: 25px; }
+        .product-info h3 { font-size: 1.6rem; margin-bottom: 10px; color: var(--secondary); }
+        .product-info p { font-size: 0.95rem; }
+        
+        /* Features Section */
+        .features { background: rgba(0,0,0,0.3); }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            background: rgba(0, 168, 132, 0.1);
+            transform: translateY(-5px);
+            border-color: var(--secondary);
+        }
+        
+        .feature-icon { font-size: 3.5rem; margin-bottom: 20px; color: var(--secondary); }
+        .feature-card h3 { margin-bottom: 15px; font-size: 1.4rem; }
+        
+        /* Subscription Section */
+        .subscription-plans {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .plan-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .plan-card.popular {
+            border: 2px solid var(--accent);
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 140, 0, 0.3);
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+        
+        .plan-card.popular:hover { transform: scale(1.08) translateY(-10px); }
+        
+        .popular-badge {
+            position: absolute;
+            top: 20px;
+            right: -40px;
+            background: var(--accent);
+            color: white;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .plan-name { font-size: 1.8rem; margin-bottom: 10px; }
+        .plan-price { font-size: 3.5rem; font-weight: 700; margin: 20px 0; color: var(--secondary); }
+        .plan-price span { font-size: 1rem; color: var(--light); }
+        .plan-features { list-style: none; margin: 30px 0; text-align: left; }
+        .plan-features li { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .plan-features li:last-child { border-bottom: none; }
+        .plan-features li.disabled { color: rgba(229, 229, 229, 0.4); text-decoration: line-through; }
+
+        /* Partners Section */
+        .partners { background: rgba(0,0,0,0.3); }
+        .partners-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .partner-logo {
+            filter: grayscale(100%) brightness(0.8);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .partner-logo:hover {
+            filter: grayscale(0%) brightness(1);
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        
+        .partner-logo img { max-width: 150px; height: auto; }
+        
+        /* Investment Section */
+        .investment-section { background: var(--dark); }
+        .investment-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: flex-start;
+        }
+        .investment-pitch h3, .investment-tiers h3 {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+        .investment-pitch p, .tier-card p { margin-bottom: 15px; }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .stat-item {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-item .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .stat-item .label {
+            font-size: 0.9rem;
+            color: rgba(229, 229, 229, 0.7);
+        }
+        .tier-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        .tier-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+        .tier-card h4 {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        .tier-card .investment-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .tier-card ul { list-style-position: inside; padding-left: 5px; }
+        .tier-card li { margin-bottom: 8px; }
+
+        /* Cost Analysis Section */
+        .cost-analysis {
+            background: rgba(0,0,0,0.2);
+            margin-top: 80px;
+        }
+        .cost-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        .cost-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+        }
+        .cost-card h4 {
+            font-size: 1.4rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+        .cost-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        .cost-description {
+            font-size: 0.9rem;
+            color: rgba(229, 229, 229, 0.7);
+        }
+
+        /* Revenue Distribution */
+        .revenue-chart {
+            max-width: 800px;
+            margin: 80px auto 0;
+            background: rgba(255,255,255,0.03);
+            border-radius: 15px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .chart-item { margin-bottom: 20px; }
+        .chart-label { display: flex; justify-content: space-between; margin-bottom: 8px; font-weight: 500; }
+        .chart-bar { height: 25px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+        .chart-fill { height: 100%; border-radius: 10px; transition: width 1s ease-in-out; }
+        
+        /* Footer */
+        footer { background: #0a0a14; padding: 60px 0 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-column h3 { font-size: 1.4rem; margin-bottom: 20px; color: var(--secondary); }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: rgba(229, 229, 229, 0.7); text-decoration: none; transition: color 0.3s ease; }
+        .footer-links a:hover { color: var(--secondary); }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(229, 229, 229, 0.5);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .investment-content { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; /* Implementar lógica de ícone */ }
+            .nav-links {
+                position: fixed; top: 70px; left: -100%; width: 100%; height: calc(100vh - 70px);
+                background: var(--dark); flex-direction: column; align-items: center;
+                justify-content: flex-start; padding-top: 50px; transition: left 0.5s ease;
+            }
+            .nav-links.active { left: 0; }
+            .nav-links li { margin: 20px 0; }
+            .hero h2 { font-size: 2.8rem; }
+            .about-content { grid-template-columns: 1fr; }
+            .plan-card.popular { transform: scale(1); }
+            .plan-card.popular:hover { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo"><h1>Cidadão.AI</h1></div>
+                <ul class="nav-links">
+                    <li><a href="#home">Início</a></li>
+                    <li><a href="#about">Sobre</a></li>
+                    <li><a href="#products">Ecossistema</a></li>
+                    <li><a href="#features">Funcionalidades</a></li>
+                    <li><a href="#subscription">Planos</a></li>
+                    <li><a href="#investment">Investidores</a></li>
+                    <li><a href="#partners">Parceiros</a></li>
+                </ul>
+                <div class="menu-toggle"><span></span><span></span><span></span></div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>O Futuro das Cidades Inteligentes, Hoje.</h2>
+                <p>Integramos robótica, IA e drones para criar um ecossistema urbano de segurança, saúde, logística e mídia, acessível a todos os cidadãos.</p>
+                <a href="#investment" class="btn">Seja um Investidor Anjo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">Nossa Missão</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Tecnologia com Propósito</h3>
+                    <p>A Cidadão.AI nasce da visão de que a tecnologia mais avançada deve servir para construir cidades mais seguras, saudáveis e eficientes. Somos uma empresa brasileira com ambição global, focada em democratizar o acesso a serviços essenciais.</p>
+                    <p>Nossa plataforma representa <span class="highlight">um equilíbrio inovador de tecnologia de ponta com responsabilidade social e sustentabilidade financeira</span>. Criamos um ciclo virtuoso onde o desenvolvimento urbano e o bem-estar social caminham juntos.</p>
+                    <p>Através de uma rede autônoma e inteligente, oferecemos uma nova perspectiva de vida urbana, conectando comunidades, empresas e serviços públicos de forma inédita.</p>
+                </div>
+                <div class="about-image">
+                    <img src="hero_cidade_inteligente.png" alt="Visão do Projeto Cidadão.AI">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="products">
+        <div class="container">
+            <h2 class="section-title">Nosso Ecossistema Integrado</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image"><img src="robo_cidadao.png" alt="Robô Humanoide Cidadão"></div>
+                    <div class="product-info">
+                        <h3>Robô Humanoide "Cidadão"</h3>
+                        <p>Unidade móvel que patrulha áreas designadas, exibindo anúncios holográficos. Se desloca para atendimentos próximos e serve como ponto de informação e emergência.</p>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image"><img src="drones_vigia_aguia.png" alt="Drones Vigia e Águia"></div>
+                    <div class="product-info">
+                        <h3>Drones "Vigia" e "Águia"</h3>
+                        <p>Drones para vigilância, entregas rápidas (cargas, pets, pessoas em emergência) e projeção de anúncios em larga escala. Respondem a chamados e monitoram o tráfego.</p>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image"><img src="base_nexus.png" alt="Base Nexus"></div>
+                    <div class="product-info">
+                        <h3>Bases "Nexus"</h3>
+                        <p>Centros de recarga solar, armazenamento e manutenção. Equipadas com painéis para patrocinadores e servem como ponto de apoio logístico e de atendimento.</p>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image"><img src="entregador_express.png" alt="Entregador Express"></div>
+                    <div class="product-info">
+                        <h3>Entregadores "Express"</h3>
+                        <p>Robôs especializados em logística, capazes de transportar cargas, pets e pessoas em situações de emergência. Operação 24/7 com rotas otimizadas.</p>
+                    </div>
+                </div>
+            </div>
+             <p style="text-align: center; margin-top: 40px; font-size: 1.1rem;">
+                <strong>Todos os modelos</strong> são multifuncionais, integrando vigilância 24/7, atendimento médico emergencial, plataforma de anúncios e guia de informações, adaptados para cada ambiente de operação.
+            </p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Funcionalidades Universais</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Segurança e Saúde</h3>
+                    <p>Cada unidade é um ponto de segurança e saúde, com botão de pânico, câmeras 360º e capacidade de atendimento emergencial.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📢</div>
+                    <h3>Mídia e Comércio</h3>
+                    <p>Plataforma de anúncios para parceiros e um marketplace integrado, acessível via robôs e app, conectando o comércio local.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">♻️</div>
+                    <h3>Sustentabilidade</h3>
+                    <p>Operação com energia solar, rotas otimizadas para menor consumo e coleta de lixo reciclável durante os trajetos.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🗺️</div>
+                    <h3>Guia Urbano</h3>
+                    <p>Informações em tempo real sobre clima, trânsito e pontos turísticos, auxiliando cidadãos e visitantes no deslocamento.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>App Integrado</h3>
+                    <p>Aplicativo único para pedidos, rastreamento, serviços de segurança e saúde, conectado a toda a rede de robôs.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>WiFi Gratuito</h3>
+                    <p>Distribuição de internet gratuita em todas as áreas de cobertura dos robôs e bases, democratizando o acesso digital.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subscription Section -->
+    <section id="subscription" class="subscription">
+        <div class="container">
+            <h2 class="section-title">Assistência por Cidadão</h2>
+            <div class="subscription-plans">
+                <div class="plan-card">
+                    <h3 class="plan-name">Plano Essencial</h3>
+                    <div class="plan-price">R$ 29,90<span>/mês</span></div>
+                    <ul class="plan-features">
+                        <li>Acesso a funções de segurança e saúde</li>
+                        <li>Limite de 2 acionamentos/mês</li>
+                        <li>Limite de 1 consulta médica/mês</li>
+                        <li>Acesso ao App e WiFi nas bases</li>
+                        <li class="disabled">Rastreamento 24h de objetos</li>
+                        <li class="disabled">Descontos no Marketplace</li>
+                    </ul>
+                    <a href="#" class="btn">Assinar Agora</a>
+                </div>
+                
+                <div class="plan-card popular">
+                    <div class="popular-badge">Popular</div>
+                    <h3 class="plan-name">Plano Cidadão+</h3>
+                    <div class="plan-price">R$ 59,90<span>/mês</span></div>
+                    <ul class="plan-features">
+                        <li>Acesso a funções de segurança e saúde</li>
+                        <li>Limite de 5 acionamentos/mês</li>
+                        <li>Limite de 3 consultas médicas/mês</li>
+                        <li>Acesso ao App e WiFi nas bases</li>
+                        <li>Rastreamento 24h de objetos</li>
+                        <li>Descontos exclusivos no Marketplace</li>
+                    </ul>
+                    <a href="#" class="btn">Assinar Agora</a>
+                </div>
+                
+                <div class="plan-card">
+                    <h3 class="plan-name">Plano Empresarial</h3>
+                    <div class="plan-price">Sob Consulta</div>
+                    <ul class="plan-features">
+                        <li>Anúncios nos robôs e bases</li>
+                        <li>Loja em nosso Marketplace</li>
+                        <li>Painel de análise de dados</li>
+                        <li>Logística de entrega otimizada</li>
+                        <li>Exposição para patrocinadores</li>
+                        <li>Suporte dedicado</li>
+                    </ul>
+                    <a href="#" class="btn">Seja um Parceiro</a>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 60px;">
+                <h3 style="font-size: 2rem; color: var(--secondary); margin-bottom: 30px;">Modelo de Patrocínio</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 800px; margin: 0 auto;">
+                    <div style="background: rgba(255,255,255,0.03); padding: 30px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                        <h4 style="color: var(--accent); margin-bottom: 15px;">Tier Nacional</h4>
+                        <p>Grandes empresas como McDonald's, Coca-Cola anunciam em robôs de locais públicos (shoppings, praças, centros comerciais).</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.03); padding: 30px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                        <h4 style="color: var(--accent); margin-bottom: 15px;">Tier Local</h4>
+                        <p>Empresas locais anunciam em robôs de bairros específicos, oferecendo serviços e produtos 24h para a comunidade.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Investment Section -->
+    <section id="investment" class="investment-section">
+        <div class="container">
+            <h2 class="section-title">Oportunidade de Investimento</h2>
+            <div class="investment-content">
+                <div class="investment-pitch">
+                    <h3>Um Negócio Escalável e de Alto Impacto</h3>
+                    <p>A Cidadão.AI é mais que um projeto; é um modelo de negócio robusto, projetado para crescimento exponencial e rentabilidade sustentável. Nosso ecossistema gera múltiplas fontes de receita (assinaturas, publicidade, marketplace, logística) com custos operacionais otimizados pela automação.</p>
+                    <p>Buscamos investidores anjo que compartilhem nossa visão de transformar cidades e queiram fazer parte de uma revolução com alto potencial de retorno financeiro e social.</p>
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <div class="value">R$ 25M</div>
+                            <div class="label">Valuation Pré-Seed</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="value">R$ 150M</div>
+                            <div class="label">Faturamento Anual (Ano 3)</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="value">3-4 Anos</div>
+                            <div class="label">Projeção de ROI</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="value">45%</div>
+                            <div class="label">Margem EBITDA Projetada</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="investment-tiers">
+                    <h3>Torne-se um Investidor Anjo</h3>
+                    <div class="tier-card">
+                        <h4>Cota Bronze</h4>
+                        <div class="investment-value">R$ 100.000 - R$ 500.000</div>
+                        <p>Participação de 0,4% a 2% no capital social</p>
+                        <ul>
+                            <li>Relatórios trimestrais de performance</li>
+                            <li>Acesso a eventos exclusivos para investidores</li>
+                            <li>Direito de preferência em rodadas futuras</li>
+                        </ul>
+                    </div>
+                    <div class="tier-card">
+                        <h4>Cota Prata</h4>
+                        <div class="investment-value">R$ 500.000 - R$ 1.500.000</div>
+                        <p>Participação de 2% a 6% no capital social</p>
+                        <ul>
+                            <li>Todos os benefícios da Cota Bronze</li>
+                            <li>Participação em decisões estratégicas</li>
+                            <li>Acesso direto ao CEO e equipe executiva</li>
+                            <li>Naming rights em uma base Nexus</li>
+                        </ul>
+                    </div>
+                    <div class="tier-card">
+                        <h4>Cota Ouro</h4>
+                        <div class="investment-value">R$ 1.500.000+</div>
+                        <p>Participação de 6%+ no capital social</p>
+                        <ul>
+                            <li>Todos os benefícios das cotas anteriores</li>
+                            <li>Assento no conselho consultivo</li>
+                            <li>Veto power em decisões críticas</li>
+                            <li>Participação em lucros distribuídos</li>
+                            <li>Direito de tag-along e drag-along</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cost Analysis Section -->
+            <div class="cost-analysis">
+                <h3 style="text-align: center; font-size: 2.2rem; color: var(--secondary); margin-bottom: 50px;">Análise de Custos e Sustentabilidade</h3>
+                <div class="cost-grid">
+                    <div class="cost-card">
+                        <h4>Custo por Robô</h4>
+                        <div class="cost-value">R$ 85.000</div>
+                        <div class="cost-description">Incluindo hardware, IA, sensores e sistemas de comunicação</div>
+                    </div>
+                    <div class="cost-card">
+                        <h4>Custo por Base Nexus</h4>
+                        <div class="cost-value">R$ 120.000</div>
+                        <div class="cost-description">Infraestrutura solar, sistemas de recarga e painéis publicitários</div>
+                    </div>
+                    <div class="cost-card">
+                        <h4>Custo por Drone</h4>
+                        <div class="cost-value">R$ 35.000</div>
+                        <div class="cost-description">Drone profissional com sistemas de projeção e entrega</div>
+                    </div>
+                    <div class="cost-card">
+                        <h4>Manutenção Mensal</h4>
+                        <div class="cost-value">R$ 2.800</div>
+                        <div class="cost-description">Por unidade (robô/drone/base), incluindo peças e mão de obra</div>
+                    </div>
+                    <div class="cost-card">
+                        <h4>Tráfego de Dados</h4>
+                        <div class="cost-value">R$ 450</div>
+                        <div class="cost-description">Por unidade/mês, incluindo 5G, streaming e backup em nuvem</div>
+                    </div>
+                    <div class="cost-card">
+                        <h4>Equipe Operacional</h4>
+                        <div class="cost-value">R$ 18.000</div>
+                        <div class="cost-description">Por região (50 unidades), incluindo técnicos e supervisores</div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 50px;">
+                    <h4 style="font-size: 1.8rem; color: var(--accent); margin-bottom: 20px;">Modelo de Investimento Local</h4>
+                    <p style="max-width: 800px; margin: 0 auto; font-size: 1.1rem;">
+                        Lojistas e comunidades podem financiar uma base e robôs em sua região. Com investimento inicial de R$ 350.000, 
+                        garantem cobertura local, prioridade em anúncios e 15% de participação nos lucros da operação regional.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Revenue Distribution -->
+            <div class="revenue-chart">
+                <h3 style="text-align: center; margin-bottom: 30px;">Projeção de Receita Mensal (Por Região - 50 Unidades)</h3>
+                
+                <div class="chart-item">
+                    <div class="chart-label">
+                        <span>Assinaturas Cidadãos (2.000 usuários)</span>
+                        <span>R$ 89.800 (60%)</span>
+                    </div>
+                    <div class="chart-bar">
+                        <div class="chart-fill" style="width: 60%; background: var(--primary);"></div>
+                    </div>
+                </div>
+                
+                <div class="chart-item">
+                    <div class="chart-label">
+                        <span>Publicidade e Patrocínios</span>
+                        <span>R$ 35.920 (24%)</span>
+                    </div>
+                    <div class="chart-bar">
+                        <div class="chart-fill" style="width: 24%; background: var(--secondary);"></div>
+                    </div>
+                </div>
+                
+                <div class="chart-item">
+                    <div class="chart-label">
+                        <span>Marketplace e Logística</span>
+                        <span>R$ 17.960 (12%)</span>
+                    </div>
+                    <div class="chart-bar">
+                        <div class="chart-fill" style="width: 12%; background: var(--accent);"></div>
+                    </div>
+                </div>
+                
+                <div class="chart-item">
+                    <div class="chart-label">
+                        <span>Parcerias Empresariais</span>
+                        <span>R$ 5.987 (4%)</span>
+                    </div>
+                    <div class="chart-bar">
+                        <div class="chart-fill" style="width: 4%; background: #ffcc00;"></div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                    <div style="display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: 600;">
+                        <span>Receita Total Mensal:</span>
+                        <span style="color: var(--secondary);">R$ 149.667</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                        <span>Custos Operacionais:</span>
+                        <span style="color: var(--accent);">R$ 82.250 (55%)</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 1.3rem; font-weight: 700; color: var(--secondary);">
+                        <span>Lucro Líquido Mensal:</span>
+                        <span>R$ 67.417 (45%)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section id="partners" class="partners">
+        <div class="container">
+            <h2 class="section-title">Parcerias Estratégicas</h2>
+            <div class="partners-grid">
+                <div class="partner-logo">
+                    <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 10px; color: var(--secondary); font-weight: 600;">
+                        McDonald's
+                    </div>
+                </div>
+                <div class="partner-logo">
+                    <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 10px; color: var(--secondary); font-weight: 600;">
+                        Coca-Cola
+                    </div>
+                </div>
+                <div class="partner-logo">
+                    <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 10px; color: var(--secondary); font-weight: 600;">
+                        Governo BR
+                    </div>
+                </div>
+                <div class="partner-logo">
+                    <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 10px; color: var(--secondary); font-weight: 600;">
+                        Comércio Local
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 60px;">
+                <p style="font-size: 1.2rem; max-width: 800px; margin: 0 auto;">
+                    Estabelecemos parcerias com grandes corporações para publicidade nacional e com o comércio local para fortalecer a economia regional. 
+                    Nosso modelo beneficia tanto marcas globais quanto pequenos empreendedores, criando um ecossistema comercial equilibrado e sustentável.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Cidadão.AI</h3>
+                    <p>Revolucionando cidades com tecnologia de ponta, responsabilidade social e sustentabilidade financeira.</p>
+                    <p style="margin-top: 20px; font-style: italic; color: var(--secondary);">
+                        "Um equilíbrio inovador de tecnologia com responsabilidade social e sustentabilidade financeira."
+                    </p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <ul class="footer-links">
+                        <li><a href="mailto:investidores@cidadao.ai">investidores@cidadao.ai</a></li>
+                        <li><a href="tel:+5511999999999">+55 (11) 99999-9999</a></li>
+                        <li>São Paulo, Brasil</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Soluções</h3>
+                    <ul class="footer-links">
+                        <li><a href="#products">Robôs e Drones</a></li>
+                        <li><a href="#features">Funcionalidades</a></li>
+                        <li><a href="#subscription">Planos</a></li>
+                        <li><a href="#partners">Parcerias</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Investidores</h3>
+                    <ul class="footer-links">
+                        <li><a href="#investment">Seja um Investidor Anjo</a></li>
+                        <li><a href="#">Relatórios Financeiros</a></li>
+                        <li><a href="#">Pitch Deck</a></li>
+                        <li><a href="#">Due Diligence</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Cidadão.AI. Todos os direitos reservados. | Empresa brasileira com visão global.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Animate chart bars on scroll
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const chartFills = entry.target.querySelectorAll('.chart-fill');
+                    chartFills.forEach(fill => {
+                        fill.style.width = fill.style.width;
+                    });
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.revenue-chart').forEach(chart => {
+            observer.observe(chart);
+        });
+
+        // Mobile menu toggle (basic implementation)
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>
